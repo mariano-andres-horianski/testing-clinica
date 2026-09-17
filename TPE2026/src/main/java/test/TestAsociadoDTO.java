@@ -1,0 +1,95 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+
+import persistencia.AsociadoDTO;
+
+public class TestAsociadoDTO {
+
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void testConstructor() {
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
+		String nombre= asociadoDTO.getNombre();
+		String apellido= asociadoDTO.getApellido();
+		String dni= asociadoDTO.getDni();
+		String ciudad= asociadoDTO.getCiudad();
+		String calle= asociadoDTO.getCalle();
+		int numero= asociadoDTO.getNumero();
+		String telefono= asociadoDTO.getTelefono();
+		Assert.assertEquals("El nombre no ha sido registrado correctamente","Cosme", nombre);
+		Assert.assertEquals("El apellido no ha sido registrado correctamente","Fulanito", apellido);
+		Assert.assertEquals("El DNI no ha sido registrado correctamente","12345678", dni);
+		Assert.assertEquals("La ciudad no ha sido registrada correctamente","Springfield", ciudad);
+		Assert.assertEquals("La calle no ha sido registrada correctamente","Av. Siempreviva", calle);
+		Assert.assertEquals("El numero no ha sido registrado correctamente",1234, numero);
+		Assert.assertEquals("El telefono no ha sido registrado correctamente","2231234567", telefono);
+	}
+	
+	@Test
+	public void testSetNombre() {
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
+		asociadoDTO.setNombre("Juan");
+		Assert.assertEquals("El nombre no ha sido registrado correctamente","Juan", asociadoDTO.getNombre());
+	}
+	
+	@Test
+	public void testSetApellido() {
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
+		asociadoDTO.setApellido("Perez");
+		Assert.assertEquals("El apellido no ha sido registrado correctamente","Perez", asociadoDTO.getApellido());
+	}
+	
+	@Test
+	public void testSetDNI() {
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
+		asociadoDTO.setDni("98765432");
+		Assert.assertEquals("El DNI no ha sido registrado correctamente","98765432", asociadoDTO.getDni());
+	}
+	
+	@Test
+	public void testSetCiudad() {
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
+		asociadoDTO.setCiudad("Mar del Plata");
+		Assert.assertEquals("La ciudad no ha sido registrada correctamente","Mar del Plata", asociadoDTO.getCiudad());
+	}
+	
+	@Test
+	public void testSetCalle() {
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
+		asociadoDTO.setCalle("San Martin");
+		Assert.assertEquals("La calle no ha sido registrada correctamente","San Martin", asociadoDTO.getCalle());
+	}
+	
+	@Test
+	public void testSetNumero() {
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
+		asociadoDTO.setNumero(4321);
+		Assert.assertEquals("El numero no ha sido registrado correctamente",4321, asociadoDTO.getNumero());
+	}
+	
+	@Test
+	public void testSetTelefono() {
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
+		asociadoDTO.setTelefono("2239876456");
+		Assert.assertEquals("El telefono no ha sido registrado correctamente","2239876456", asociadoDTO.getTelefono());
+	}
+
+
+
+
+
+}
