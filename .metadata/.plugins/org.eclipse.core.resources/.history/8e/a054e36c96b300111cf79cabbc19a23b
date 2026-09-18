@@ -12,6 +12,14 @@ import persistencia.AsociadoDTO;
 
 public class TestAsociadoDTO {
 
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
 	@Test
 	public void testConstructor() {
 		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
