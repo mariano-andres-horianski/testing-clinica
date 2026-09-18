@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="persistencia.AsociadoDTO"/>
+<fullyQualifiedTypeName name="junit.framework.Assert"/>
+<fullyQualifiedTypeName name="org.junit.Assert"/>
+</qualifiedTypeNameHistroy>

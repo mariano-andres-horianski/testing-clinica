@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TestAsociadoDTO" project="TPE2026" tests="16" started="16" failures="0" errors="0" ignored="0">
+  <testsuite name="test.TestAsociadoDTO" time="0.002">
+    <testcase name="testSetApellido" classname="test.TestAsociadoDTO" time="0.002"/>
+    <testcase name="testSetApellidoInvalido" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetCiudadInvalida" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetNumeroInvalidoCero" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetCalleInvalida" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetNumeroInvalidoNegativo" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetTelefonoInvalido" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetTelefono" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetCiudad" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetDniInvalido" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetNombre" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetNumero" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetNombreInvalido" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetDNI" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testConstructor" classname="test.TestAsociadoDTO" time="0.0"/>
+    <testcase name="testSetCalle" classname="test.TestAsociadoDTO" time="0.0"/>
+  </testsuite>
+</testrun>

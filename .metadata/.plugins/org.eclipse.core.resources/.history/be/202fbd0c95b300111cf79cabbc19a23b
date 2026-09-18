@@ -82,13 +82,6 @@ public class TestAsociadoDTO {
 	}
 	
 	@Test
-	public void testSetNumeroCeroValido() {
-	    AsociadoDTO asociadoDTO = new AsociadoDTO();
-	    asociadoDTO.setNumero(0);
-	    Assert.assertEquals("El numero 0 deberia ser valido", 0, asociadoDTO.getNumero());
-	}
-	
-	@Test
 	public void testSetTelefono() {
 		AsociadoDTO asociadoDTO= new AsociadoDTO();
 		asociadoDTO.setTelefono("2239876456");
@@ -153,6 +146,13 @@ public class TestAsociadoDTO {
 			fail("Se esperaba una AssertionError");
 		} catch (AssertionError e) {
 		}
+	}
+	
+	@Test
+	public void testSetNumeroCeroValido() {
+	    AsociadoDTO asociadoDTO = new AsociadoDTO();
+	    asociadoDTO.setNumero(0);
+	    Assert.assertEquals("El numero 0 deberia ser valido", 0, asociadoDTO.getNumero());
 	}
 
 	@Test

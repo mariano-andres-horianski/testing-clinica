@@ -41,28 +41,28 @@ public class TestAsociadoDTO {
 	
 	@Test
 	public void testSetNombre() {
-		AsociadoDTO asociadoDTO= new AsociadoDTO();
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
 		asociadoDTO.setNombre("Juan");
 		Assert.assertEquals("El nombre no ha sido registrado correctamente","Juan", asociadoDTO.getNombre());
 	}
 	
 	@Test
 	public void testSetApellido() {
-		AsociadoDTO asociadoDTO= new AsociadoDTO();
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
 		asociadoDTO.setApellido("Perez");
 		Assert.assertEquals("El apellido no ha sido registrado correctamente","Perez", asociadoDTO.getApellido());
 	}
 	
 	@Test
 	public void testSetDNI() {
-		AsociadoDTO asociadoDTO= new AsociadoDTO();
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
 		asociadoDTO.setDni("98765432");
 		Assert.assertEquals("El DNI no ha sido registrado correctamente","98765432", asociadoDTO.getDni());
 	}
 	
 	@Test
 	public void testSetCiudad() {
-		AsociadoDTO asociadoDTO= new AsociadoDTO();
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
 		asociadoDTO.setCiudad("Mar del Plata");
 		Assert.assertEquals("La ciudad no ha sido registrada correctamente","Mar del Plata", asociadoDTO.getCiudad());
 	}
@@ -79,13 +79,6 @@ public class TestAsociadoDTO {
 		AsociadoDTO asociadoDTO= new AsociadoDTO();
 		asociadoDTO.setNumero(4321);
 		Assert.assertEquals("El numero no ha sido registrado correctamente",4321, asociadoDTO.getNumero());
-	}
-	
-	@Test
-	public void testSetNumeroCeroValido() {
-	    AsociadoDTO asociadoDTO = new AsociadoDTO();
-	    asociadoDTO.setNumero(0);
-	    Assert.assertEquals("El numero 0 deberia ser valido", 0, asociadoDTO.getNumero());
 	}
 	
 	@Test
@@ -153,6 +146,13 @@ public class TestAsociadoDTO {
 			fail("Se esperaba una AssertionError");
 		} catch (AssertionError e) {
 		}
+	}
+	
+	@Test
+	public void testSetNumeroCeroValido() {
+	    AsociadoDTO asociadoDTO = new AsociadoDTO();
+	    asociadoDTO.setNumero(0);
+	    Assert.assertEquals("El numero 0 deberia ser valido", 0, asociadoDTO.getNumero());
 	}
 
 	@Test
