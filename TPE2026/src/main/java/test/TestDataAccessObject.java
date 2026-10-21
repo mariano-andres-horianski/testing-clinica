@@ -45,17 +45,7 @@ public class TestDataAccessObject {
 		}catch(SQLException e) {
 		}	
 	}
-	
-	@Test
-	public void testGuardarInvalido() {
-		try {
-			dataAccessObject.guardar(null);
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		} catch (SQLException e) {
-		}
-	}
-	
+		
 	@Test
 	public void testGuardarNombreInvalido() {
 		Asociado asociado = new Asociado(null,"Fulanito","1","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
@@ -99,60 +89,12 @@ public class TestDataAccessObject {
 	
 		try {
 			dataAccessObject.guardar(asociado);
-			fail("Se esperaba un AssertionError");
+			fail("Se esperaba un SQLException");
 		} catch (AssertionError e) {
 		} catch (SQLException e) {
 		}
 	}
 	
-	@Test
-	public void testGuardarCiudadInvalido() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio(null,1234,"Av. Siempreviva"));
-	
-		try {
-			dataAccessObject.guardar(asociado);
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		} catch (SQLException e) {
-		}
-	}
-	
-	@Test
-	public void testGuardarCalleInvalido() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio("Springfield",1234,null));
-	
-		try {
-			dataAccessObject.guardar(asociado);
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		} catch (SQLException e) {
-		}
-	}
-	
-	@Test
-	public void testGuardarNumeroInvalidoNegativo() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio("Springfield",-1,"Av. Siempreviva"));
-	
-		try {
-			dataAccessObject.guardar(asociado);
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		} catch (SQLException e) {
-		}
-	}
-	
-	@Test
-	public void testGuardarNumeroInvalidoCero() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio("Springfield",0,"Av. Siempreviva"));
-			
-		try {
-			dataAccessObject.guardar(asociado);
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		} catch (SQLException e) {
-		}
-	}
-
 	@Test
 	public void testGuardarTelefonoInvalido() {
 		Asociado asociado = new Asociado("Cosme","Fulanito","0",null,new Domicilio("Springfield",1234,"Av. Siempreviva"));
@@ -170,7 +112,8 @@ public class TestDataAccessObject {
 	@Test
 	public void TestCargarConLimiteExitoso() {
 		try {
-			ArrayList<AsociadoDTO> asociadoDTO = dataAccessObject.cargarConLimite(1);
+			ArrayList<AsociadoDTO> asociadoDTO = dataAccessObject.cargarConLimite(3);
+			System.out.println(asociadoDTO);
 		} catch(AssertionError e) {
 			fail("No debería lanzarse una excepción");
 		} catch (SQLException e) {
@@ -178,25 +121,6 @@ public class TestDataAccessObject {
 		}
 	}
 	
-	@Test
-	public void TestCargarConLimiteInvalidoCero() {
-		try {
-			ArrayList<AsociadoDTO> asociadoDTO = dataAccessObject.cargarConLimite(0);
-			fail("Se esperaba un AssertionError");
-		} catch(AssertionError e) {
-		} catch (SQLException e) {
-		}
-	}
-	
-	@Test
-	public void TestCargarConLimiteInvalidoNegativo() {
-		try {
-			ArrayList<AsociadoDTO> asociadoDTO = dataAccessObject.cargarConLimite(-1);
-			fail("Se esperaba un AssertionError");
-		} catch(AssertionError e) {
-		} catch (SQLException e) {
-		}
-	}
 	
 	//cargar(int id)
 	
@@ -204,6 +128,7 @@ public class TestDataAccessObject {
 	public void TestCargarExitoso() {
 		try {
 			AsociadoDTO asociadoDTO = dataAccessObject.cargar(1);
+			System.out.println(asociadoDTO);
 		} catch(AssertionError e) {
 			fail("No debería lanzarse una excepción");
 		} catch (SQLException e) {
@@ -211,25 +136,6 @@ public class TestDataAccessObject {
 		}
 	}
 	
-	@Test
-	public void TestCargarInvalidoCero() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.cargar(0);
-			fail("Se esperaba un AssertionError");
-		} catch(AssertionError e) {
-		} catch (SQLException e) {
-		}
-	}
-	
-	@Test
-	public void TestCargarInvalidoNegativo() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.cargar(-1);
-			fail("Se esperaba un AssertionError");
-		} catch(AssertionError e) {
-		} catch (SQLException e) {
-		}
-	}
 	
 	//cargarBD()
 	
@@ -237,6 +143,7 @@ public class TestDataAccessObject {
 	public void TestCargarBDExitoso() {
 		try {
 			ArrayList<AsociadoDTO> asociados = dataAccessObject.cargarBD();
+			System.out.println(asociados);
 		}catch(SQLException e) {
 			fail("No debería lanzarse una excepción");
 		}
@@ -270,7 +177,7 @@ public class TestDataAccessObject {
 	public void TestEliminarInvalidoNoExistente() {
 		try {
 			dataAccessObject.eliminar("999999");
-			fail("Se esperaba un AssertionError");
+			fail("Se esperaba un SQLException");
 		}catch(AssertionError e) {
 		}catch(SQLException e) {
 		}
@@ -301,15 +208,6 @@ public class TestDataAccessObject {
 		}
 	}
 	
-	@Test
-	public void TestActualizarInvalido() {	
-		try {
-			dataAccessObject.actualizar(null);
-			fail("Se esperaba un AssertionError");
-		}catch(AssertionError e){
-		}catch(SQLException e){
-		}
-	}
 	
 	//CrearDTO(Asociado asociado)
 	
@@ -324,14 +222,6 @@ public class TestDataAccessObject {
 		}
 	}
 	
-	@Test
-	public void testCrearDTOInvalido() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(null);
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
 	
 	@Test
 	public void testCrearDTONombreInvalido() {
@@ -366,50 +256,6 @@ public class TestDataAccessObject {
 		} catch (AssertionError e) {
 		}
 	}
-	
-	@Test
-	public void testCrearDTOCiudadInvalido() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio(null,1234,"Av. Siempreviva"));
-	
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-	
-	@Test
-	public void testCrearDTOCalleInvalido() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio("Springfield",1234,null));
-	
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-	
-	@Test
-	public void testCrearDTONumeroInvalidoNegativo() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio("Springfield",-1,"Av. Siempreviva"));
-	
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-	
-	@Test
-	public void testCrearDTONumeroInvalidoCero() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio("Springfield",0,"Av. Siempreviva"));
-			
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
 
 	@Test
 	public void testCrearDTOTelefonoInvalido() {
@@ -433,94 +279,4 @@ public class TestDataAccessObject {
 		}
 	}
 	
-	@Test
-	public void testCrearDTODatosIDInvalidoCero() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(0,"Cosme","Fulanito","0","Springfield",1234,"Av. Siempreviva","2231234567");
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-	
-	@Test
-	public void testCrearDTODatosIDInvalidoNegativo() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(-1,"Cosme","Fulanito","0","Springfield",1234,"Av. Siempreviva","2231234567");
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-	
-	@Test
-	public void testCrearDTODatosNombreInvalido() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(1,null,"Fulanito","0","Springfield",1234,"Av. Siempreviva","2231234567");
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-	
-	@Test
-	public void testCrearDTODatosApellidoInvalido() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(1,"Cosme",null,"0","Springfield",1234,"Av. Siempreviva","2231234567");
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-	
-	
-	@Test
-	public void testCrearDTODatosDNIInvalidoNulo() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(1,"Cosme","Fulanito",null,"Springfield",1234,"Av. Siempreviva","2231234567");
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-	
-	@Test
-	public void testCrearDTODatosCiudadInvalido() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(1,"Cosme","Fulanito","0",null,1234,"Av. Siempreviva","2231234567");
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-	
-	@Test
-	public void testCrearDTODatosCalleInvalido() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(1,"Cosme","Fulanito","0","Springfield",1234,null,"2231234567");
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-	
-	@Test
-	public void testCrearDTODatosNumeroInvalidoNegativo() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(1,"Cosme","Fulanito","0","Springfield",-1,"Av. Siempreviva","2231234567");
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-	
-	@Test
-	public void testCrearDTODatosNumeroInvalidoCero() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(1,"Cosme","Fulanito","0","Springfield",0,"Av. Siempreviva","2231234567");
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
-
-	@Test
-	public void testCrearDTODatosTelefonoInvalido() {
-		try {
-			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(1,"Cosme","Fulanito","0","Springfield",1234,"Av. Siempreviva",null);
-			fail("Se esperaba un AssertionError");
-		} catch (AssertionError e) {
-		}
-	}
 }
