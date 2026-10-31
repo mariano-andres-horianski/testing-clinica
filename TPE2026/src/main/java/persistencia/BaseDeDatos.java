@@ -91,7 +91,6 @@ public class BaseDeDatos {
         stmt.setInt(1, id);
         }
         rs = stmt.executeQuery();
-        
        
         // stmt.close();
         return rs;
