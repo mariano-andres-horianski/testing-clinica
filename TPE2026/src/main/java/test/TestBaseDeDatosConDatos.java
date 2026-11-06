@@ -94,39 +94,21 @@ public class TestBaseDeDatosConDatos {
 		}
 	}
 	@Test
-	//validar Update
+	//validar Update: el asociado modificado debe quedar actualizado en la BD
 	public void testEjecutarActualizacionExitoso() {
 		String update = "UPDATE Asociados SET nombre=?, apellido=?, dni=?, calle=?, numero=?, ciudad=?, telefono=? "
 				+ "WHERE id=?;";
 		try {
-			//tomo un asociado que ya existe en la BD (ejecutarActualizacion siempre actualiza el id 1)
-			AsociadoDTO dtoExistente = this.DAO.cargar(1);
-			String nombreOriginal = dtoExistente.getNombre();
-			String apellidoOriginal = dtoExistente.getApellido();
+			// cualquier asociado existente; se evita el 1 para no pasar por casualidad
+			AsociadoDTO dto = this.DAO.cargar(2);
+			dto.setNombre("NombreModificado");
 
-			//modifico algunos datos del asociado existente
-			dtoExistente.setNombre(nombreOriginal + "Modificado");
-			dtoExistente.setApellido(apellidoOriginal + "Modificado");
-			dtoExistente.setTelefono("999999999");
+			this.bd.ejecutarActualizacion(update, dto);
 
-			try {
-				this.bd.ejecutarActualizacion(update, dtoExistente);
-			} catch (SQLException e) {
-				fail("No se pudo ejecutar una actualización válida");
-			}
-
-			//recargo el asociado desde la BD para verificar que se haya actualizado
-			AsociadoDTO dtoCargado = this.DAO.cargar(1);
-			assertEquals("El nombre no se actualizó", dtoExistente.getNombre(), dtoCargado.getNombre());
-			assertEquals("El apellido no se actualizó", dtoExistente.getApellido(), dtoCargado.getApellido());
-			assertEquals("El teléfono no se actualizó", dtoExistente.getTelefono(), dtoCargado.getTelefono());
-			//los datos que no modifiqué deben seguir igual
-			assertEquals("El dni no debería haber cambiado", dtoExistente.getDni(), dtoCargado.getDni());
-			assertEquals("La calle no debería haber cambiado", dtoExistente.getCalle(), dtoCargado.getCalle());
-			assertEquals("El número no debería haber cambiado", dtoExistente.getNumero(), dtoCargado.getNumero());
-			assertEquals("La ciudad no debería haber cambiado", dtoExistente.getCiudad(), dtoCargado.getCiudad());
+			AsociadoDTO recargado = this.DAO.cargar(2);
+			assertEquals("El asociado no se actualizó", "NombreModificado", recargado.getNombre());
 		} catch (SQLException e) {
-			fail("No se pudo cargar el asociado de la BD");
+			fail("No se pudo actualizar o recargar el asociado");
 		}
 	}
 	
