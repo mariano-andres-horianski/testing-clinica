@@ -46,6 +46,7 @@ public class TestBaseDeDatosSinDatos {
 
 	@After
 	public void tearDown() throws Exception {
+		this.bd.iniciarBD();
 	}
 
 	private AsociadoDTO crearDTONuevo(String dni) {
@@ -233,8 +234,50 @@ public class TestBaseDeDatosSinDatos {
 			fail("No se pudo actualizar o recargar el asociado");
 		}
 	}
-	// ---------- Delete ----------
+	@Test
+	//validar Update: debe actualizar el asociado indicado, no uno fijo
+	public void testEjecutarActualizacionAfectaSoloAlAsociadoIndicado() {
+		String update = "UPDATE Asociados SET nombre=?, apellido=?, dni=?, calle=?, numero=?, ciudad=?, telefono=? "
+				+ "WHERE id=?;";
+		try {
+			AsociadoDTO dtoPrimero = this.DAO.cargar(1);
+			AsociadoDTO dtoObjetivo = this.DAO.cargar(2);
+			String nombrePrimeroOriginal = dtoPrimero.getNombre();
 
+			dtoObjetivo.setNombre("NombreModificado");
+
+			try {
+				this.bd.ejecutarActualizacion(update, dtoObjetivo);
+			} catch (SQLException e) {
+				fail("No se pudo ejecutar una actualización válida");
+			}
+
+			AsociadoDTO objetivoRecargado = this.DAO.cargar(2);
+			AsociadoDTO primeroRecargado = this.DAO.cargar(1);
+
+			assertEquals("No se actualizó el asociado indicado", "NombreModificado", objetivoRecargado.getNombre());
+			assertEquals("Se modificó un asociado que no correspondía", nombrePrimeroOriginal, primeroRecargado.getNombre());
+		} catch (SQLException e) {
+			fail("No se pudo cargar un asociado de la BD");
+		}
+	}
+	// ---------- Delete ----------
+	@Test
+	//validar Delete
+	public void testEjecutarDeleteExitoso() {
+		AsociadoDTO asociado_a_borrar;
+		try {
+			asociado_a_borrar = this.DAO.cargar(1);
+			try {
+				this.bd.ejecutarDelete("DELETE FROM Asociados WHERE dni=?;", asociado_a_borrar.getDni());
+			}catch(SQLException e) {
+				fail("No se pudo borrar un asociado existente");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			fail("No se pudo cargar un asociado");
+		}
+	}
 	@Test
 	//validar Delete: borrar un asociado inexistente no afecta la BD
 	public void testEjecutarDeleteInexistenteNoAfectaLaBD() {
@@ -277,7 +320,7 @@ public class TestBaseDeDatosSinDatos {
 	}
 
 	@Test
-	void conexion_esUnica() {
+	public void conexion_esUnica() {
 		//Verificamos que la conexión que ambas instancias nos retornan sean la misma
 		BaseDeDatos segunda_bd = BaseDeDatos.getInstancia();
 

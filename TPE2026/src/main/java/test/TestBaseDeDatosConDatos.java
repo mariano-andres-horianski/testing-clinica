@@ -18,7 +18,7 @@ import persistencia.BaseDeDatos;
 import persistencia.DataAccessObject;
 
 
-/* Test Case de la base de datos
+/* Test Case de la base de datos en un escenario en el cual hay datos en la BD antes de llamar iniciarBD() por primera vez
  * Objetivos: 
  *   - validar uso correcto del patrón Singleton en la conexión, 
  *     la inicialización automática de tablas y los datos semilla
@@ -39,10 +39,7 @@ public class TestBaseDeDatosConDatos {
 
 	@After
 	public void tearDown() throws Exception {
-	}
-
-	@Test
-	public void testGetConexionExitoso() {
+		this.bd.iniciarBD();
 	}
 
 	@Test
@@ -168,10 +165,14 @@ public class TestBaseDeDatosConDatos {
 			e.printStackTrace();
 		}
 		//verifico que en el ArrayList se haya incluido mi nuevo Asociado
-		int valido = this.asociados.indexOf(dtoasociado_nuevo);
-		if (valido == -1) {
-			fail("No se inserto exitosamente un usuario valido");
+		boolean encontrado = false;
+		for (AsociadoDTO a : this.asociados) {
+			if (a.getDni().equals(dtoasociado_nuevo.getDni())) {
+				encontrado = true;
+				break;
+			}
 		}
+		assertTrue("No se inserto exitosamente un usuario valido", encontrado);
 	}
 	@Test
 	//validar Create
