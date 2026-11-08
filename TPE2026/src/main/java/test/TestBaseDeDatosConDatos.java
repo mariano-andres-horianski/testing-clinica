@@ -93,6 +93,7 @@ public class TestBaseDeDatosConDatos {
 			// comportamiento esperado según el contrato
 		}
 	}
+	
 	@Test
 	//validar Update: el asociado modificado debe quedar actualizado en la BD
 	public void testEjecutarActualizacionExitoso() {
@@ -282,6 +283,17 @@ public class TestBaseDeDatosConDatos {
 	}
 	
 	@Test
+	//validar inicialización: llamar iniciarBD() de nuevo no debe duplicar los datos semilla
+	public void testIniciarBDNoDuplicaDatosSemilla() {
+		try {
+			this.bd.iniciarBD();
+			this.bd.iniciarBD();
+			assertEquals("iniciarBD() duplicó los datos semilla", 20, this.DAO.cargarBD().size());
+		} catch (SQLException e) {
+			fail("No se pudo cargar la BD luego de llamar a iniciarBD()");
+		}
+	}
+	@Test
 	public void testInstanciaUnica() {
 		//Creamos dos variables BD, ejecutamos una operación en una y verificamos que se ejecute en la otra
 		//Es de integración, pues necesitamos que los métodos de operaciones funcionen
@@ -292,7 +304,7 @@ public class TestBaseDeDatosConDatos {
 		
 	}
 	@Test
-	void conexion_esUnica(){
+	public void conexion_esUnica(){
 		//Verificamos que la conexión que ambas instancias nos retornan sean la misma
 		BaseDeDatos segunda_bd = BaseDeDatos.getInstancia();
 		

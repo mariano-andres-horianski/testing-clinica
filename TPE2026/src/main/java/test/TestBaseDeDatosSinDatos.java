@@ -216,11 +216,23 @@ public class TestBaseDeDatosSinDatos {
 	}
 
 	// ---------- Update ----------
-
 	@Test
 	public void testEjecutarActualizacionExitoso() {
-	}
+		String update = "UPDATE Asociados SET nombre=?, apellido=?, dni=?, calle=?, numero=?, ciudad=?, telefono=? "
+				+ "WHERE id=?;";
+		try {
+			// cualquier asociado existente; se evita el 1 para no pasar por casualidad
+			AsociadoDTO dto = this.DAO.cargar(2);
+			dto.setNombre("NombreModificado");
 
+			this.bd.ejecutarActualizacion(update, dto);
+
+			AsociadoDTO recargado = this.DAO.cargar(2);
+			assertEquals("El asociado no se actualizó", "NombreModificado", recargado.getNombre());
+		} catch (SQLException e) {
+			fail("No se pudo actualizar o recargar el asociado");
+		}
+	}
 	// ---------- Delete ----------
 
 	@Test
