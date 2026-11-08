@@ -1,0 +1,29 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import persistencia.AsociadoDTO;
+
+public class TestAsociadoDTO {
+
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void testConstructor() {
+		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
+		String nombre= asociadoDTO.getNombre();
+		String apellido= asociadoDTO.getApellido();
+		fail("Not yet implemented");
+	}
+
+}
