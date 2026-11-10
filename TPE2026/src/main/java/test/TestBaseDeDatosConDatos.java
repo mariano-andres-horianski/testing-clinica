@@ -28,6 +28,13 @@ public class TestBaseDeDatosConDatos {
 	private BaseDeDatos bd;
 	private ArrayList<AsociadoDTO> asociados, asociados_escenario;
 	private DataAccessObject DAO;
+	private static final String INSERT = "INSERT INTO Asociados(nombre, apellido, dni, calle, numero, ciudad, telefono) "
+			+ "VALUES (?,?,?,?,?,?,?);";
+	private static final String DELETE = "DELETE FROM Asociados WHERE dni=?;";
+	// DNI que no debería coincidir con ningún dato semilla
+	private static final String DNI_NUEVO = "99999991";
+	private static final String DNI_NUEVO_2 = "99999992";
+	
 	@Before
 	public void setUp() throws Exception {
 		EscenarioBDConDatos escenario = new EscenarioBDConDatos();
@@ -42,11 +49,26 @@ public class TestBaseDeDatosConDatos {
 		this.bd.iniciarBD();
 	}
 
+	// ---------- Read ----------
 	@Test
 	//validar Read
 	public void testEjecutarConsultaExitosa() {
 		try {
 			AsociadoDTO esperado = this.DAO.cargar(1);
+			ResultSet rs = this.bd.ejecutarConsulta("SELECT * FROM Asociados WHERE id=?", 1);
+			assertTrue("La consulta no devolvió filas para un id existente", rs.next());
+			assertEquals("El dni devuelto no coincide", esperado.getDni(), rs.getString("dni"));
+			assertFalse("La consulta por id devolvió más de una fila", rs.next());
+		} catch (SQLException e) {
+			fail("No se ejecutó correctamente la consulta.");
+		}
+	}
+	
+	@Test
+	//validar Read: consulta por id existente
+	public void testEjecutarConsultaExitosaSinCargarPorID() {
+		try {
+			AsociadoDTO esperado = this.DAO.cargarBD().get(0);
 			ResultSet rs = this.bd.ejecutarConsulta("SELECT * FROM Asociados WHERE id=?", 1);
 			assertTrue("La consulta no devolvió filas para un id existente", rs.next());
 			assertEquals("El dni devuelto no coincide", esperado.getDni(), rs.getString("dni"));
@@ -90,7 +112,9 @@ public class TestBaseDeDatosConDatos {
 			// comportamiento esperado según el contrato
 		}
 	}
-	
+
+	// ---------- Update ----------
+
 	@Test
 	//validar Update: el asociado modificado debe quedar actualizado en la BD
 	public void testEjecutarActualizacionExitoso() {
@@ -137,8 +161,34 @@ public class TestBaseDeDatosConDatos {
 			fail("No se pudo cargar un asociado de la BD");
 		}
 	}
-	
-	
+	@Test
+	//validar Update: debe actualizar el asociado indicado, no uno fijo
+	public void testEjecutarActualizacionAfectaSoloAlAsociadoIndicadoSinCargarID() {
+		String update = "UPDATE Asociados SET nombre=?, apellido=?, dni=?, calle=?, numero=?, ciudad=?, telefono=? "
+				+ "WHERE id=?;";
+		try {
+			ArrayList<AsociadoDTO> antes = this.DAO.cargarBD();
+			AsociadoDTO dtoPrimero = antes.get(0);
+			AsociadoDTO dtoObjetivo = antes.get(1);
+			String nombrePrimeroOriginal = dtoPrimero.getNombre();
+
+			dtoObjetivo.setNombre("NombreModificado");
+
+			try {
+				this.bd.ejecutarActualizacion(update, dtoObjetivo);
+			} catch (SQLException e) {
+				fail("No se pudo ejecutar una actualización válida: " + e.getMessage());
+			}
+
+			ArrayList<AsociadoDTO> despues = this.DAO.cargarBD();
+			assertEquals("No se actualizó el asociado indicado", "NombreModificado", despues.get(1).getNombre());
+			assertEquals("Se modificó un asociado que no correspondía", nombrePrimeroOriginal, despues.get(0).getNombre());
+		} catch (SQLException e) {
+			fail("No se pudo cargar la BD");
+		}
+	}
+
+	// ---------- Create ----------
 
 	@Test
 	//validar Create
@@ -197,30 +247,60 @@ public class TestBaseDeDatosConDatos {
 	@Test
 	//validar Create
 	public void testEjecutarInsertUsuarioNulo() {
-		//acá lo que tendría que hacer es sacar del ArrayList de la BD un usuario e insertarlo
-		
+		boolean fallo = false;
 		try {
-			this.bd.ejecutarInsert("", null);
-			fail("se inserto un usuario nulo sin que lance assertion error");
-		}catch(Exception e) {
-			
+			this.bd.ejecutarInsert(INSERT, null);
+		} catch (AssertionError | NullPointerException | SQLException e) {
+			fallo = true; // comportamiento esperado: assert (con -ea) o NullPointerException (sin -ea)
 		}
+		assertTrue("Se insertó un usuario nulo sin que lance excepción", fallo);
 	}
-	
+
+
+	// ---------- Delete ----------
 	@Test
-	//validar Delete
+	//validar Delete: el asociado borrado ya no debe estar en la BD
 	public void testEjecutarDeleteExitoso() {
-		AsociadoDTO asociado_a_borrar;
 		try {
-			asociado_a_borrar = this.DAO.cargar(1);
+			int antes = this.DAO.cargarBD().size();
+			AsociadoDTO asociado_a_borrar = this.DAO.cargar(1);
+			String dni = asociado_a_borrar.getDni();
+
 			try {
-				this.bd.ejecutarDelete("DELETE FROM Asociados WHERE dni=?;", asociado_a_borrar.getDni());
-			}catch(SQLException e) {
+				this.bd.ejecutarDelete("DELETE FROM Asociados WHERE dni=?;", dni);
+			} catch (SQLException e) {
 				fail("No se pudo borrar un asociado existente");
 			}
+
+			ArrayList<AsociadoDTO> despues = this.DAO.cargarBD();
+			assertEquals("La cantidad de asociados no disminuyó en uno", antes - 1, despues.size());
+			for (AsociadoDTO a : despues) {
+				assertNotEquals("El asociado borrado sigue en la BD", dni, a.getDni());
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			fail("No se pudo cargar un asociado");
+			fail("No se pudo cargar la BD o el asociado");
+		}
+	}
+	@Test
+	//validar Delete: el asociado borrado ya no debe estar en la BD
+	public void testEjecutarDeleteExitosoSinCargarID() {
+		try {
+			int antes = this.DAO.cargarBD().size();
+			String dni = this.DAO.cargarBD().get(0).getDni();
+
+			try {
+				this.bd.ejecutarDelete("DELETE FROM Asociados WHERE dni=?;", dni);
+			} catch (SQLException e) {
+				fail("No se pudo borrar un asociado existente");
+			}
+
+			ArrayList<AsociadoDTO> despues = this.DAO.cargarBD();
+			assertEquals("La cantidad de asociados no disminuyó en uno", antes - 1, despues.size());
+			for (AsociadoDTO a : despues) {
+				assertNotEquals("El asociado borrado sigue en la BD", dni, a.getDni());
+			}
+		} catch (SQLException e) {
+			fail("No se pudo cargar la BD");
 		}
 	}
 	@Test
@@ -262,6 +342,8 @@ public class TestBaseDeDatosConDatos {
 			fail("Borrar un asociado inexistente no debería lanzar excepción");
 		}
 	}
+
+	// ---------- iniciarBD ----------
 	@Test
 	public void testIniciarBDExitoso() {
 		//Este es para testear la inicialización automática y la creación de datos semilla,
@@ -294,6 +376,10 @@ public class TestBaseDeDatosConDatos {
 			fail("No se pudo cargar la BD luego de llamar a iniciarBD()");
 		}
 	}
+
+
+	// ---------- Singleton ----------
+
 	@Test
 	public void testInstanciaUnica() {
 		//Creamos dos variables BD, ejecutamos una operación en una y verificamos que se ejecute en la otra
