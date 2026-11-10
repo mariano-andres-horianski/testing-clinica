@@ -54,7 +54,7 @@ public class TestDataAccessObject {
 		try {
 			dataAccessObject.guardar(asociado);
 		} catch(SQLException e) {
-			fail("No debería lanzarse una excepción");
+			fail("No deberÃ­a lanzarse una excepciÃ³n");
 		};
 		
 		try {
@@ -67,15 +67,15 @@ public class TestDataAccessObject {
 					encontrado = 1;
 				}
 			}
-			Assert.assertEquals("No se encontró el asociado creado",encontrado,1);
+			Assert.assertEquals("No se encontrÃ³ el asociado creado",encontrado,1);
 		}catch(SQLException e) {
-			fail("No debería lanzarse una excepción");
+			fail("No deberÃ­a lanzarse una excepciÃ³n");
 		}	
 	}
 		
 	@Test
 	public void testGuardarNombreInvalido() {
-		Asociado asociado = new Asociado(null,"Fulanito","1","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado(null,"Fulanito","0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
 	
 		try {
 			dataAccessObject.guardar(asociado);
@@ -143,9 +143,9 @@ public class TestDataAccessObject {
 			System.out.println(asociadoDTO);
 			Assert.assertEquals("La cantidad de asociados no es correcta", 3, asociadoDTO.size());
 		} catch(AssertionError e) {
-			fail("No debería lanzarse una excepción");
+			fail("No deberÃ­a lanzarse una excepciÃ³n");
 		} catch (SQLException e) {
-			fail("No debería lanzarse una excepción");
+			fail("No deberÃ­a lanzarse una excepciÃ³n");
 		}
 	}
 	
@@ -161,13 +161,13 @@ public class TestDataAccessObject {
 			Assert.assertEquals("El apellido no es correcto", "State", asociadoDTO.getApellido());
 			Assert.assertEquals("El DNI no es correcto", "12345678", asociadoDTO.getDni());
 			Assert.assertEquals("La calle no es correcta", "Buenos Aires", asociadoDTO.getCalle());
-			Assert.assertEquals("El número no es correcto", 123, asociadoDTO.getNumero());
+			Assert.assertEquals("El nÃºmero no es correcto", 123, asociadoDTO.getNumero());
 			Assert.assertEquals("La ciudad no es correcta", "Mar del Plata", asociadoDTO.getCiudad());
-			Assert.assertEquals("El teléfono no es correcto", "2235551234", asociadoDTO.getTelefono());
+			Assert.assertEquals("El telÃ©fono no es correcto", "2235551234", asociadoDTO.getTelefono());
 		} catch(AssertionError e) {
-			fail("No debería lanzarse una excepción");
+			fail("No deberÃ­a lanzarse una excepciÃ³n");
 		} catch (SQLException e) {
-			fail("No debería lanzarse una excepción");
+			fail("No deberÃ­a lanzarse una excepciÃ³n");
 		}
 	}
 	
@@ -181,7 +181,7 @@ public class TestDataAccessObject {
 			System.out.println(asociados);
 			Assert.assertEquals("La cantidad de asociados no es correcta", 21, asociados.size());
 		}catch(SQLException e) {
-			fail("No debería lanzarse una excepción");
+			fail("No deberÃ­a lanzarse una excepciÃ³n");
 		}
 	}
 	
@@ -192,7 +192,7 @@ public class TestDataAccessObject {
 		try {
 			dataAccessObject.eliminar("99999999");
 		}catch(SQLException e) {
-			fail("No debería lanzarse una excepción");
+			fail("No deberÃ­a lanzarse una excepciÃ³n");
 		}
 		
 		try {
@@ -204,7 +204,7 @@ public class TestDataAccessObject {
 					encontrado = 1;
 				}
 			}
-			Assert.assertEquals("No se eliminó el asociado",encontrado,0);
+			Assert.assertEquals("No se eliminÃ³ el asociado",encontrado,0);
 		}catch(SQLException e) {
 		}	
 	}
@@ -238,9 +238,9 @@ public class TestDataAccessObject {
 		try {
 			dataAccessObject.actualizar(asociado);
 		}catch(AssertionError e){
-			fail("No debería lanzarse una excepción");
+			fail("No deberÃ­a lanzarse una excepciÃ³n");
 		}catch(SQLException e){
-			fail("No debería lanzarse una excepción");
+			fail("No deberÃ­a lanzarse una excepciÃ³n");
 		}
 	}
 	
@@ -256,9 +256,9 @@ public class TestDataAccessObject {
 	    Assert.assertEquals("El nombre no es correcto", "Cosme", asociadoDTO.getNombre());
 	    Assert.assertEquals("El apellido no es correcto", "Fulanito", asociadoDTO.getApellido());
 	    Assert.assertEquals("El DNI no es correcto", "0", asociadoDTO.getDni());
-	    Assert.assertEquals("El teléfono no es correcto", "2231234567", asociadoDTO.getTelefono());
+	    Assert.assertEquals("El telÃ©fono no es correcto", "2231234567", asociadoDTO.getTelefono());
 	    Assert.assertEquals("La calle no es correcta", "Av. Siempreviva", asociadoDTO.getCalle());
-	    Assert.assertEquals("El número no es correcto", 1234, asociadoDTO.getNumero());
+	    Assert.assertEquals("El nÃºmero no es correcto", 1234, asociadoDTO.getNumero());
 	    Assert.assertEquals("La ciudad no es correcta", "Springfield", asociadoDTO.getCiudad());
 	}
 	
@@ -317,9 +317,9 @@ public class TestDataAccessObject {
 	    Assert.assertEquals("El apellido no es correcto", "Fulanito", asociadoDTO.getApellido());
 	    Assert.assertEquals("El DNI no es correcto", "0", asociadoDTO.getDni());
 	    Assert.assertEquals("La calle no es correcta", "Springfield", asociadoDTO.getCalle());
-	    Assert.assertEquals("El número no es correcto", 1234, asociadoDTO.getNumero());
+	    Assert.assertEquals("El nÃºmero no es correcto", 1234, asociadoDTO.getNumero());
 	    Assert.assertEquals("La ciudad no es correcta", "Av. Siempreviva", asociadoDTO.getCiudad());
-	    Assert.assertEquals("El teléfono no es correcto", "2231234567", asociadoDTO.getTelefono());
+	    Assert.assertEquals("El telÃ©fono no es correcto", "2231234567", asociadoDTO.getTelefono());
 	}
 	
 }
