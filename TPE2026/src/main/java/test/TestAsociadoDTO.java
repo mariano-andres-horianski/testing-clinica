@@ -2,9 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
+
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 
@@ -12,6 +11,12 @@ import persistencia.AsociadoDTO;
 
 public class TestAsociadoDTO {
 
+	@Test
+	public void testConstructorPorDefecto() {
+	    AsociadoDTO asociadoDTO = new AsociadoDTO();
+	    Assert.assertNotNull("No se ha creado correctamente la instancia de AsociadoDTO", asociadoDTO);
+	}
+	
 	@Test
 	public void testConstructor() {
 		AsociadoDTO asociadoDTO= new AsociadoDTO("Cosme","Fulanito","12345678","Springfield","Av. Siempreviva",1234,"2231234567");
@@ -29,6 +34,54 @@ public class TestAsociadoDTO {
 		Assert.assertEquals("La calle no ha sido registrada correctamente","Av. Siempreviva", calle);
 		Assert.assertEquals("El numero no ha sido registrado correctamente",1234, numero);
 		Assert.assertEquals("El telefono no ha sido registrado correctamente","2231234567", telefono);
+	}
+	
+	@Test
+	public void testConstructorNombreNulo() {
+	    AsociadoDTO asociadoDTO = new AsociadoDTO(null, "Fulanito", "12345678", "Springfield", "Av. Siempreviva", 1234, "2231234567");
+	    Assert.assertNotNull("El nombre no debería ser nulo", asociadoDTO.getNombre());
+	}
+
+	@Test
+	public void testConstructorApellidoNulo() {
+	    AsociadoDTO asociadoDTO = new AsociadoDTO("Cosme", null, "12345678", "Springfield", "Av. Siempreviva", 1234, "2231234567");
+	    Assert.assertNotNull("El apellido no debería ser nulo", asociadoDTO.getApellido());
+	}
+
+	@Test
+	public void testConstructorDniNulo() {
+	    AsociadoDTO asociadoDTO = new AsociadoDTO("Cosme", "Fulanito", null, "Springfield", "Av. Siempreviva", 1234, "2231234567");
+	    Assert.assertNotNull("El DNI no debería ser nulo", asociadoDTO.getDni());
+	}
+
+	@Test
+	public void testConstructorCiudadNula() {
+	    AsociadoDTO asociadoDTO = new AsociadoDTO("Cosme", "Fulanito", "12345678", null, "Av. Siempreviva", 1234, "2231234567");
+	    Assert.assertNotNull("La ciudad no debería ser nula", asociadoDTO.getCiudad());
+	}
+
+	@Test
+	public void testConstructorCalleNula() {
+	    AsociadoDTO asociadoDTO = new AsociadoDTO("Cosme", "Fulanito", "12345678", "Springfield", null, 1234, "2231234567");
+	    Assert.assertNotNull("La calle no debería ser nula", asociadoDTO.getCalle());
+	}
+
+	@Test
+	public void testConstructorNumeroNegativo() {
+	    AsociadoDTO asociadoDTO = new AsociadoDTO("Cosme", "Fulanito", "12345678", "Springfield", "Av. Siempreviva", -1, "2231234567");
+	    Assert.assertTrue("El número no debería ser negativo", asociadoDTO.getNumero() >= 0);
+	}
+
+	@Test
+	public void testConstructorNumeroCero() {
+	    AsociadoDTO asociadoDTO = new AsociadoDTO("Cosme", "Fulanito", "12345678", "Springfield", "Av. Siempreviva", 0, "2231234567");
+	    Assert.assertEquals("El número no ha sido registrado correctamente", 0, asociadoDTO.getNumero());
+	}
+
+	@Test
+	public void testConstructorTelefonoNulo() {
+	    AsociadoDTO asociadoDTO = new AsociadoDTO("Cosme", "Fulanito", "12345678", "Springfield", "Av. Siempreviva", 1234, null);
+	    Assert.assertNotNull("El teléfono no debería ser nulo", asociadoDTO.getTelefono());
 	}
 	
 	@Test
@@ -160,3 +213,4 @@ public class TestAsociadoDTO {
 
 
 }
+
