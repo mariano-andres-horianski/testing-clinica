@@ -78,7 +78,7 @@ public class TestAmbulanciaIntegracion {
     // =========================================================================
 
     @Test
-    public void flujoAtencionDomicilio() {
+    public void testFlujoAtencionDomicilio() {
         ambulancia.atenderDomicilio(primerAsociado);
         comprobarEstado(AtendiendoEnDomicilioState.class);
         assertTrue(ambulancia.isOcupado());
@@ -92,7 +92,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void flujoDomicilioConRetornoAutomatico() {
+    public void testFlujoDomicilioConRetornoAutomatico() {
         ambulancia.atenderDomicilio(primerAsociado);
         comprobarEstado(AtendiendoEnDomicilioState.class);
         assertTrue(ambulancia.isOcupado());
@@ -106,7 +106,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void flujoTraslado() {
+    public void testFlujoTraslado() {
         ambulancia.trasladarALaClinica(primerAsociado);
         comprobarEstado(TrasladandoPacienteClinicaState.class);
         assertTrue(ambulancia.isOcupado());
@@ -117,7 +117,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void flujoMantenimiento() {
+    public void testFlujoMantenimiento() {
         ambulancia.solicitarMantenimiento(operarioTaller);
         comprobarEstado(EnTallerState.class);
         assertTrue(ambulancia.isOcupado());
@@ -141,7 +141,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void transicionesDesdeDisponible() {
+    public void testTransicionesDesdeDisponible() {
         ambulancia.setState(new DisponibleState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeTraslado();
         comprobarEstado("Disponible + traslado", TrasladandoPacienteClinicaState.class);
@@ -160,7 +160,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void transicionesDesdeTrasladando() {
+    public void testTransicionesDesdeTrasladando() {
         ambulancia.setState(new TrasladandoPacienteClinicaState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeTraslado();
         comprobarEstado("Trasladando + traslado", TrasladandoPacienteClinicaState.class);
@@ -179,7 +179,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void transicionesDesdeAtendiendoDomicilio() {
+    public void testTransicionesDesdeAtendiendoDomicilio() {
         ambulancia.setState(new AtendiendoEnDomicilioState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeTraslado();
         comprobarEstado("AtendiendoDomicilio + traslado", AtendiendoEnDomicilioState.class);
@@ -198,7 +198,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void transicionesDesdeRegresandoClinica() {
+    public void testTransicionesDesdeRegresandoClinica() {
         ambulancia.setState(new RegresandoClinicaSinPacienteState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeTraslado();
         comprobarEstado("RegresandoClinica + traslado", TrasladandoPacienteClinicaState.class);
@@ -217,7 +217,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void transicionesDesdeEnTaller() {
+    public void testTransicionesDesdeEnTaller() {
         ambulancia.setState(new EnTallerState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeTraslado();
         comprobarEstado("EnTaller + traslado", EnTallerState.class);
@@ -236,7 +236,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void transicionesDesdeRegresandoDelTaller() {
+    public void testTransicionesDesdeRegresandoDelTaller() {
         ambulancia.setState(new RegresandoDelTallerState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeTraslado();
         comprobarEstado("RegresandoDelTaller + traslado", RegresandoDelTallerState.class);
@@ -267,7 +267,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void pedidosEnDisponible() {
+    public void testPedidosEnDisponible() {
         prepararAmbulanciaLibre(new DisponibleState(ambulancia));
         ambulancia.trasladarALaClinica(primerAsociado);
         comprobarEstado("Disponible + traslado", TrasladandoPacienteClinicaState.class);
@@ -285,7 +285,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void pedidosEnRegresandoClinica() {
+    public void testPedidosEnRegresandoClinica() {
         prepararAmbulanciaLibre(new RegresandoClinicaSinPacienteState(ambulancia));
         ambulancia.trasladarALaClinica(primerAsociado);
         comprobarEstado("RegresandoClinica + traslado", TrasladandoPacienteClinicaState.class);
@@ -303,7 +303,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void pedidosEnRegresandoDelTaller() {
+    public void testPedidosEnRegresandoDelTaller() {
         prepararAmbulanciaLibre(new RegresandoDelTallerState(ambulancia));
         ambulancia.trasladarALaClinica(primerAsociado);
         comprobarEstado("RegresandoDelTaller + traslado", RegresandoDelTallerState.class);
@@ -338,7 +338,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void asociadosPidenAmbulanciaOcupada() throws InterruptedException {
+    public void testAsociadosPidenAmbulanciaOcupada() throws InterruptedException {
         ambulancia.atenderDomicilio(mock(Asociado.class));
         assertTrue(ambulancia.isOcupado());
 
@@ -380,7 +380,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void operarioPideMantenimientoDuranteTraslado() throws InterruptedException {
+    public void testOperarioPideMantenimientoDuranteTraslado() throws InterruptedException {
 
     	ambulancia.trasladarALaClinica(mock(Asociado.class));
         assertTrue(ambulancia.isOcupado());
@@ -405,7 +405,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void AsociadosCompitenPorLaAmbulancia() throws InterruptedException {
+    public void testAsociadosCompitenPorLaAmbulancia() throws InterruptedException {
         final int totalSolicitantes = 4;
         final List<Thread> hilosCompetidores = new ArrayList<>();
 
@@ -447,7 +447,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void AsociadosLleganConAmbulanciaLibre() throws InterruptedException {
+    public void testAsociadosLleganConAmbulanciaLibre() throws InterruptedException {
         final List<Thread> hilosSolicitantes = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
@@ -475,7 +475,7 @@ public class TestAmbulanciaIntegracion {
 
 
     @Test
-    public void finDeSimulacionConHilosEsperando() throws InterruptedException {
+    public void testFinDeSimulacionConHilosEsperando() throws InterruptedException {
         ambulancia.setOcupado(true);
 
         Thread hiloAsociado = new Thread(() -> ambulancia.atenderDomicilio(primerAsociado));
@@ -496,7 +496,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void interrupcionDeAsociadoEnEspera() throws InterruptedException {
+    public void testInterrupcionDeAsociadoEnEspera() throws InterruptedException {
         ambulancia.setOcupado(true);
 
         Thread hiloEspera = new Thread(() -> {
@@ -517,7 +517,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void finDeSimulacionSegunSolicitudesPendientes() {
+    public void testFinDeSimulacionSegunSolicitudesPendientes() {
         Domicilio direccion = new Domicilio("wwwww", 1111, "Mar del Plata");
 
         new Asociado("aaaa", "eeee", "111111", "22222", direccion, 0, ambulancia);
@@ -536,7 +536,7 @@ public class TestAmbulanciaIntegracion {
     // =========================================================================
 
     @Test
-    public void retornoAutomaticoConSimulacionActiva() throws InterruptedException {
+    public void testRetornoAutomaticoConSimulacionActiva() throws InterruptedException {
         Thread hiloRetorno = new Thread(rutinaRetorno);
         hiloRetorno.start();
 
@@ -552,7 +552,7 @@ public class TestAmbulanciaIntegracion {
     }
 
     @Test
-    public void retornoAutomaticoConSimulacionTerminada() throws InterruptedException {
+    public void testRetornoAutomaticoConSimulacionTerminada() throws InterruptedException {
         ambulancia.setSimulacionActiva(false);
 
         Thread hiloRetorno = new Thread(rutinaRetorno);
