@@ -38,13 +38,15 @@ public class TestDataAccessObject {
    @After
    public void limpiarBD() {
        try {
+    	   BaseDeDatos.getInstancia();
            dataAccessObject.eliminar("99999999");
            dataAccessObject.eliminar("0");
        } catch(SQLException e) {
            fail("No se pudieron eliminar los datos de prueba");
        }
    }
-	
+
+  
 	//guardar(Asociado asociado)
 	
 	@Test
@@ -137,7 +139,7 @@ public class TestDataAccessObject {
 	//cargarConLimite(int limite)
 	
 	@Test
-	public void TestCargarConLimiteExitoso() {
+	public void testCargarConLimiteExitoso() {
 		try {
 			ArrayList<AsociadoDTO> asociadoDTO = dataAccessObject.cargarConLimite(3);
 			System.out.println(asociadoDTO);
@@ -153,7 +155,7 @@ public class TestDataAccessObject {
 	//cargar(int id)
 	
 	@Test
-	public void TestCargarExitoso() {
+	public void testCargarExitoso() {
 		try {
 			AsociadoDTO asociadoDTO = dataAccessObject.cargar(1);
 			System.out.println(asociadoDTO);
@@ -175,7 +177,7 @@ public class TestDataAccessObject {
 	//cargarBD()
 	
 	@Test
-	public void TestCargarBDExitoso() {
+	public void testCargarBDExitoso() {
 		try {
 			ArrayList<AsociadoDTO> asociados = dataAccessObject.cargarBD();
 			System.out.println(asociados);
@@ -188,7 +190,7 @@ public class TestDataAccessObject {
 	//eliminar(String DNI)
 	
 	@Test
-	public void TestEliminarExitoso() {
+	public void testEliminarExitoso() {
 		try {
 			dataAccessObject.eliminar("99999999");
 		}catch(SQLException e) {
@@ -210,7 +212,7 @@ public class TestDataAccessObject {
 	}
 	
 	@Test
-	public void TestEliminarInvalidoNoExistente() {
+	public void testEliminarInvalidoNoExistente() {
 		try {
 			dataAccessObject.eliminar("000000");
 			fail("Se esperaba un SQLException");
@@ -220,7 +222,7 @@ public class TestDataAccessObject {
 	}
 	
 	@Test
-	public void TestEliminarInvalidoNulo() {
+	public void testEliminarInvalidoNulo() {
 		try {
 			dataAccessObject.eliminar(null);
 			fail("Se esperaba un AssertionError");
@@ -232,7 +234,7 @@ public class TestDataAccessObject {
 	//actualizar(Asociado asociado)
 	
 	@Test
-	public void TestActualizarExitoso() {
+	public void testActualizarExitoso() {
 		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
@@ -245,7 +247,7 @@ public class TestDataAccessObject {
 	}
 	
 	@Test
-	public void TestActualizarNombreInvalido() {
+	public void testActualizarNombreInvalido() {
 		Asociado asociado = new Asociado(null,"Fulanito","0","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
@@ -257,7 +259,7 @@ public class TestDataAccessObject {
 	}
 	
 	@Test
-	public void TestActualizarApellidoInvalido() {
+	public void testActualizarApellidoInvalido() {
 		Asociado asociado = new Asociado("Cosme",null,"0","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
@@ -269,7 +271,7 @@ public class TestDataAccessObject {
 	}
 	
 	@Test
-	public void TestActualizarDNIInvalido() {
+	public void testActualizarDNIInvalido() {
 		Asociado asociado = new Asociado("Cosme","Fulanito",null,"2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
@@ -281,7 +283,7 @@ public class TestDataAccessObject {
 	}
 	
 	@Test
-	public void TestActualizarTelefonoInvalido() {
+	public void testActualizarTelefonoInvalido() {
 		Asociado asociado = new Asociado("Cosme","Fulanito","0",null,new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
@@ -295,7 +297,7 @@ public class TestDataAccessObject {
 	//CrearDTO(Asociado asociado)
 	
 	@Test
-	public void TestCrearDTOExitoso() {
+	public void testCrearDTOExitoso() {
 	    Asociado asociado = new Asociado("Cosme", "Fulanito", "0", "2231234567", new Domicilio("Av. Siempreviva",1234,"Springfield"));
 
 	    AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
@@ -357,7 +359,7 @@ public class TestDataAccessObject {
 	//CrearDTO(int id, String nombre, String apellido, String dni, String calle, int numero, String ciudad, String telefono)
 	
 	@Test
-	public void TestCrearDTODatosExitoso() {
+	public void testCrearDTODatosExitoso() {
 	    AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO( 1, "Cosme", "Fulanito", "0", "Av. Siempreviva", 1234, "Springfield", "2231234567");
 
 	    Assert.assertEquals("El nombre no es correcto", "Cosme", asociadoDTO.getNombre());
