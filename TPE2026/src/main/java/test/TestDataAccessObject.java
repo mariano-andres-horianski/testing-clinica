@@ -25,7 +25,7 @@ public class TestDataAccessObject {
     public void prepararBD() {
         Asociado asociado = new Asociado(
             "Senior", "Bolainas", "99999999", "2231234567",
-            new Domicilio("Springfield", 1000, "Av. Mammon")
+            new Domicilio("Av. Mammon", 1000, "Springfield")
         );
 
         try {
@@ -49,7 +49,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void testGuardarExitoso() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 	
 		try {
 			dataAccessObject.guardar(asociado);
@@ -75,7 +75,7 @@ public class TestDataAccessObject {
 		
 	@Test
 	public void testGuardarNombreInvalido() {
-		Asociado asociado = new Asociado(null,"Fulanito","0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado(null,"Fulanito","0","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 	
 		try {
 			dataAccessObject.guardar(asociado);
@@ -87,7 +87,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void testGuardarApellidoInvalido() {
-		Asociado asociado = new Asociado("Cosme",null,"0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme",null,"0","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 	
 		try {
 			dataAccessObject.guardar(asociado);
@@ -100,7 +100,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void testGuardarDNIInvalidoNulo() {
-		Asociado asociado = new Asociado("Cosme","Fulanito",null,"2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme","Fulanito",null,"2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 	
 		try {
 			dataAccessObject.guardar(asociado);
@@ -112,7 +112,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void testGuardarDNIInvalidoRepetido() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","99999999","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme","Fulanito","99999999","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 	
 		try {
 			dataAccessObject.guardar(asociado);
@@ -124,7 +124,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void testGuardarTelefonoInvalido() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0",null,new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme","Fulanito","0",null,new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
 			dataAccessObject.guardar(asociado);
@@ -233,7 +233,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void TestActualizarExitoso() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme","Fulanito","0","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
 			dataAccessObject.actualizar(asociado);
@@ -246,7 +246,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void TestActualizarNombreInvalido() {
-		Asociado asociado = new Asociado(null,"Fulanito","0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado(null,"Fulanito","0","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
 			dataAccessObject.actualizar(asociado);
@@ -258,7 +258,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void TestActualizarApellidoInvalido() {
-		Asociado asociado = new Asociado("Cosme",null,"0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme",null,"0","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
 			dataAccessObject.actualizar(asociado);
@@ -270,7 +270,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void TestActualizarDNIInvalido() {
-		Asociado asociado = new Asociado("Cosme","Fulanito",null,"2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme","Fulanito",null,"2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
 			dataAccessObject.actualizar(asociado);
@@ -282,7 +282,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void TestActualizarTelefonoInvalido() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0",null,new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme","Fulanito","0",null,new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
 			dataAccessObject.actualizar(asociado);
@@ -296,7 +296,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void TestCrearDTOExitoso() {
-	    Asociado asociado = new Asociado("Cosme", "Fulanito", "0", "2231234567", new Domicilio("Av. Siempreviva", 1234, "Springfield"));
+	    Asociado asociado = new Asociado("Cosme", "Fulanito", "0", "2231234567", new Domicilio("Av. Siempreviva",1234,"Springfield"));
 
 	    AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
 
@@ -311,7 +311,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void testCrearDTONombreInvalido() {
-		Asociado asociado = new Asociado(null,"Fulanito","0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado(null,"Fulanito","0","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 	
 		try {
 			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
@@ -322,7 +322,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void testCrearDTOApellidoInvalido() {
-		Asociado asociado = new Asociado("Cosme",null,"0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme",null,"0","2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 	
 		try {
 			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
@@ -334,7 +334,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void testCrearDTODNIInvalido() {
-		Asociado asociado = new Asociado("Cosme","Fulanito",null,"2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme","Fulanito",null,"2231234567",new Domicilio("Av. Siempreviva",1234,"Springfield"));
 	
 		try {
 			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
@@ -345,7 +345,7 @@ public class TestDataAccessObject {
 
 	@Test
 	public void testCrearDTOTelefonoInvalido() {
-		Asociado asociado = new Asociado("Cosme","Fulanito","0",null,new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado("Cosme","Fulanito","0",null,new Domicilio("Av. Siempreviva",1234,"Springfield"));
 		
 		try {
 			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
@@ -358,14 +358,14 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void TestCrearDTODatosExitoso() {
-	    AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO( 1, "Cosme", "Fulanito", "0", "Springfield", 1234, "Av. Siempreviva", "2231234567");
+	    AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO( 1, "Cosme", "Fulanito", "0", "Av. Siempreviva", 1234, "Springfield", "2231234567");
 
 	    Assert.assertEquals("El nombre no es correcto", "Cosme", asociadoDTO.getNombre());
 	    Assert.assertEquals("El apellido no es correcto", "Fulanito", asociadoDTO.getApellido());
 	    Assert.assertEquals("El DNI no es correcto", "0", asociadoDTO.getDni());
-	    Assert.assertEquals("La calle no es correcta", "Springfield", asociadoDTO.getCalle());
+	    Assert.assertEquals("La calle no es correcta", "Av. Siempreviva", asociadoDTO.getCalle());
 	    Assert.assertEquals("El número no es correcto", 1234, asociadoDTO.getNumero());
-	    Assert.assertEquals("La ciudad no es correcta", "Av. Siempreviva", asociadoDTO.getCiudad());
+	    Assert.assertEquals("La ciudad no es correcta", "Springfield", asociadoDTO.getCiudad());
 	    Assert.assertEquals("El teléfono no es correcto", "2231234567", asociadoDTO.getTelefono());
 	}
 	
