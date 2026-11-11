@@ -132,185 +132,194 @@ public class TestAmbulanciaIntegracion {
 
     // =========================================================================
     // TRANSICIONES DE ESTADOS
+    // Un test por estado: se le envían los cuatro eventos, partiendo cada vez
+    // de una instancia nueva del estado, y se verifica el estado resultante.
     // =========================================================================
 
-    // --- AtendiendoEnDomicilio -----------------------------------------------
-
-    @Test
-    public void atendiendoAnteDomicilio() {
-        ambulancia.setState(new AtendiendoEnDomicilioState(ambulancia));
-        ambulancia.getEstadoActual().SolicitudDeAtencionDomicilio();
-        comprobarEstado(AtendiendoEnDomicilioState.class);
+    private void comprobarEstado(String caso, Class<? extends State> claseEsperada) {
+        assertSame(caso, claseEsperada, ambulancia.getEstadoActual().getClass());
     }
 
     @Test
-    public void atendiendoAnteTraslado() {
-        ambulancia.setState(new AtendiendoEnDomicilioState(ambulancia));
+    public void transicionesDesdeDisponible() {
+        ambulancia.setState(new DisponibleState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeTraslado();
-        comprobarEstado(AtendiendoEnDomicilioState.class);
-    }
+        comprobarEstado("Disponible + traslado", TrasladandoPacienteClinicaState.class);
 
-    @Test
-    public void atendiendoAnteMantenimiento() {
-        ambulancia.setState(new AtendiendoEnDomicilioState(ambulancia));
-        ambulancia.getEstadoActual().SolicitudMantenimiento();
-        comprobarEstado(AtendiendoEnDomicilioState.class);
-    }
-
-    @Test
-    public void atendiendoAnteRetorno() {
-        ambulancia.setState(new AtendiendoEnDomicilioState(ambulancia));
-        ambulancia.getEstadoActual().RetornoClinica();
-        comprobarEstado(RegresandoClinicaSinPacienteState.class);
-    }
-
-    // --- RegresandoClinicaSinPaciente ----------------------------------------
-
-    @Test
-    public void regresandoClinicaAnteDomicilio() {
-        ambulancia.setState(new RegresandoClinicaSinPacienteState(ambulancia));
+        ambulancia.setState(new DisponibleState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeAtencionDomicilio();
-        comprobarEstado(AtendiendoEnDomicilioState.class);
-    }
+        comprobarEstado("Disponible + domicilio", AtendiendoEnDomicilioState.class);
 
-    @Test
-    public void regresandoClinicaAnteTraslado() {
-        ambulancia.setState(new RegresandoClinicaSinPacienteState(ambulancia));
-        ambulancia.getEstadoActual().SolicitudDeTraslado();
-        comprobarEstado(TrasladandoPacienteClinicaState.class);
-    }
-
-    @Test
-    public void regresandoClinicaAnteMantenimiento() {
-        ambulancia.setState(new RegresandoClinicaSinPacienteState(ambulancia));
+        ambulancia.setState(new DisponibleState(ambulancia));
         ambulancia.getEstadoActual().SolicitudMantenimiento();
-        comprobarEstado(RegresandoClinicaSinPacienteState.class);
-    }
+        comprobarEstado("Disponible + mantenimiento", EnTallerState.class);
 
-    @Test
-    public void regresandoClinicaAnteRetorno() {
-        ambulancia.setState(new RegresandoClinicaSinPacienteState(ambulancia));
+        ambulancia.setState(new DisponibleState(ambulancia));
         ambulancia.getEstadoActual().RetornoClinica();
-        comprobarEstado(DisponibleState.class);
-    }
-
-    // --- Disponible ----------------------------------------------------------
-
-    @Test
-    public void disponibleAnteDomicilio() {
-        ambulancia.getEstadoActual().SolicitudDeAtencionDomicilio();
-        comprobarEstado(AtendiendoEnDomicilioState.class);
+        comprobarEstado("Disponible + retorno", DisponibleState.class);
     }
 
     @Test
-    public void disponibleAnteTraslado() {
-        ambulancia.getEstadoActual().SolicitudDeTraslado();
-        comprobarEstado(TrasladandoPacienteClinicaState.class);
-    }
-
-    @Test
-    public void disponibleAnteMantenimiento() {
-        ambulancia.getEstadoActual().SolicitudMantenimiento();
-        comprobarEstado(EnTallerState.class);
-    }
-
-    @Test
-    public void disponibleAnteRetorno() {
-        ambulancia.getEstadoActual().RetornoClinica();
-        comprobarEstado(DisponibleState.class);
-    }
-
-    // --- TrasladandoPacienteClinica ------------------------------------------
-
-    @Test
-    public void trasladandoAnteDomicilio() {
-        ambulancia.setState(new TrasladandoPacienteClinicaState(ambulancia));
-        ambulancia.getEstadoActual().SolicitudDeAtencionDomicilio();
-        comprobarEstado(TrasladandoPacienteClinicaState.class);
-    }
-
-    @Test
-    public void trasladandoAnteTraslado() {
+    public void transicionesDesdeTrasladando() {
         ambulancia.setState(new TrasladandoPacienteClinicaState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeTraslado();
-        comprobarEstado(TrasladandoPacienteClinicaState.class);
-    }
+        comprobarEstado("Trasladando + traslado", TrasladandoPacienteClinicaState.class);
 
-    @Test
-    public void trasladandoAnteMantenimiento() {
+        ambulancia.setState(new TrasladandoPacienteClinicaState(ambulancia));
+        ambulancia.getEstadoActual().SolicitudDeAtencionDomicilio();
+        comprobarEstado("Trasladando + domicilio", TrasladandoPacienteClinicaState.class);
+
         ambulancia.setState(new TrasladandoPacienteClinicaState(ambulancia));
         ambulancia.getEstadoActual().SolicitudMantenimiento();
-        comprobarEstado(TrasladandoPacienteClinicaState.class);
-    }
+        comprobarEstado("Trasladando + mantenimiento", TrasladandoPacienteClinicaState.class);
 
-    @Test
-    public void trasladandoAnteRetorno() {
         ambulancia.setState(new TrasladandoPacienteClinicaState(ambulancia));
         ambulancia.getEstadoActual().RetornoClinica();
-        comprobarEstado(DisponibleState.class);
+        comprobarEstado("Trasladando + retorno", DisponibleState.class);
     }
 
-    // --- EnTaller ------------------------------------------------------------
-
     @Test
-    public void enTallerAnteDomicilio() {
-        ambulancia.setState(new EnTallerState(ambulancia));
+    public void transicionesDesdeAtendiendoDomicilio() {
+        ambulancia.setState(new AtendiendoEnDomicilioState(ambulancia));
+        ambulancia.getEstadoActual().SolicitudDeTraslado();
+        comprobarEstado("AtendiendoDomicilio + traslado", AtendiendoEnDomicilioState.class);
+
+        ambulancia.setState(new AtendiendoEnDomicilioState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeAtencionDomicilio();
-        comprobarEstado(EnTallerState.class);
+        comprobarEstado("AtendiendoDomicilio + domicilio", AtendiendoEnDomicilioState.class);
+
+        ambulancia.setState(new AtendiendoEnDomicilioState(ambulancia));
+        ambulancia.getEstadoActual().SolicitudMantenimiento();
+        comprobarEstado("AtendiendoDomicilio + mantenimiento", AtendiendoEnDomicilioState.class);
+
+        ambulancia.setState(new AtendiendoEnDomicilioState(ambulancia));
+        ambulancia.getEstadoActual().RetornoClinica();
+        comprobarEstado("AtendiendoDomicilio + retorno", RegresandoClinicaSinPacienteState.class);
     }
 
     @Test
-    public void enTallerAnteTraslado() {
+    public void transicionesDesdeRegresandoClinica() {
+        ambulancia.setState(new RegresandoClinicaSinPacienteState(ambulancia));
+        ambulancia.getEstadoActual().SolicitudDeTraslado();
+        comprobarEstado("RegresandoClinica + traslado", TrasladandoPacienteClinicaState.class);
+
+        ambulancia.setState(new RegresandoClinicaSinPacienteState(ambulancia));
+        ambulancia.getEstadoActual().SolicitudDeAtencionDomicilio();
+        comprobarEstado("RegresandoClinica + domicilio", AtendiendoEnDomicilioState.class);
+
+        ambulancia.setState(new RegresandoClinicaSinPacienteState(ambulancia));
+        ambulancia.getEstadoActual().SolicitudMantenimiento();
+        comprobarEstado("RegresandoClinica + mantenimiento", RegresandoClinicaSinPacienteState.class);
+
+        ambulancia.setState(new RegresandoClinicaSinPacienteState(ambulancia));
+        ambulancia.getEstadoActual().RetornoClinica();
+        comprobarEstado("RegresandoClinica + retorno", DisponibleState.class);
+    }
+
+    @Test
+    public void transicionesDesdeEnTaller() {
         ambulancia.setState(new EnTallerState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeTraslado();
-        comprobarEstado(EnTallerState.class);
-    }
+        comprobarEstado("EnTaller + traslado", EnTallerState.class);
 
-    @Test
-    public void enTallerAnteMantenimiento() {
+        ambulancia.setState(new EnTallerState(ambulancia));
+        ambulancia.getEstadoActual().SolicitudDeAtencionDomicilio();
+        comprobarEstado("EnTaller + domicilio", EnTallerState.class);
+
         ambulancia.setState(new EnTallerState(ambulancia));
         ambulancia.getEstadoActual().SolicitudMantenimiento();
-        comprobarEstado(RegresandoDelTallerState.class);
-    }
+        comprobarEstado("EnTaller + mantenimiento", RegresandoDelTallerState.class);
 
-    @Test
-    public void enTallerAnteRetorno() {
         ambulancia.setState(new EnTallerState(ambulancia));
         ambulancia.getEstadoActual().RetornoClinica();
-        comprobarEstado(EnTallerState.class);
-    }
-
-    // --- RegresandoDelTaller -------------------------------------------------
-
-    @Test
-    public void regresandoDelTallerAnteDomicilio() {
-        ambulancia.setState(new RegresandoDelTallerState(ambulancia));
-        ambulancia.getEstadoActual().SolicitudDeAtencionDomicilio();
-        comprobarEstado(RegresandoDelTallerState.class);
+        comprobarEstado("EnTaller + retorno", EnTallerState.class);
     }
 
     @Test
-    public void regresandoDelTallerAnteTraslado() {
+    public void transicionesDesdeRegresandoDelTaller() {
         ambulancia.setState(new RegresandoDelTallerState(ambulancia));
         ambulancia.getEstadoActual().SolicitudDeTraslado();
-        comprobarEstado(RegresandoDelTallerState.class);
-    }
+        comprobarEstado("RegresandoDelTaller + traslado", RegresandoDelTallerState.class);
 
-    @Test
-    public void regresandoDelTallerAnteMantenimiento() {
+        ambulancia.setState(new RegresandoDelTallerState(ambulancia));
+        ambulancia.getEstadoActual().SolicitudDeAtencionDomicilio();
+        comprobarEstado("RegresandoDelTaller + domicilio", RegresandoDelTallerState.class);
+
         ambulancia.setState(new RegresandoDelTallerState(ambulancia));
         ambulancia.getEstadoActual().SolicitudMantenimiento();
-        comprobarEstado(RegresandoDelTallerState.class);
+        comprobarEstado("RegresandoDelTaller + mantenimiento", RegresandoDelTallerState.class);
+
+        ambulancia.setState(new RegresandoDelTallerState(ambulancia));
+        ambulancia.getEstadoActual().RetornoClinica();
+        comprobarEstado("RegresandoDelTaller + retorno", DisponibleState.class);
+    }
+
+    // =========================================================================
+    // PEDIDOS A TRAVÉS DE AMBULANCIA SEGÚN EL ESTADO ACTUAL
+    // Se invoca el método público de Ambulancia (no el del estado), con la
+    // ambulancia libre, para verificar la cadena completa: delegación en el
+    // estado real, transición y flag de ocupado. Un test por estado.
+    // =========================================================================
+
+    private void prepararAmbulanciaLibre(State estado) {
+        ambulancia.setOcupado(false);
+        ambulancia.setState(estado);
     }
 
     @Test
-    public void regresandoDelTallerAnteRetorno() {
-        ambulancia.setState(new RegresandoDelTallerState(ambulancia));
-        ambulancia.getEstadoActual().RetornoClinica();
-        comprobarEstado(DisponibleState.class);
+    public void pedidosEnDisponible() {
+        prepararAmbulanciaLibre(new DisponibleState(ambulancia));
+        ambulancia.trasladarALaClinica(primerAsociado);
+        comprobarEstado("Disponible + traslado", TrasladandoPacienteClinicaState.class);
+        assertTrue("Disponible + traslado: el estado aceptó el pedido, la ambulancia debe quedar ocupada", ambulancia.isOcupado());
+
+        prepararAmbulanciaLibre(new DisponibleState(ambulancia));
+        ambulancia.atenderDomicilio(primerAsociado);
+        comprobarEstado("Disponible + domicilio", AtendiendoEnDomicilioState.class);
+        assertTrue("Disponible + domicilio: el estado aceptó el pedido, la ambulancia debe quedar ocupada", ambulancia.isOcupado());
+
+        prepararAmbulanciaLibre(new DisponibleState(ambulancia));
+        ambulancia.solicitarMantenimiento(operarioTaller);
+        comprobarEstado("Disponible + mantenimiento", EnTallerState.class);
+        assertTrue("Disponible + mantenimiento: el estado aceptó el pedido, la ambulancia debe quedar ocupada", ambulancia.isOcupado());
     }
 
-    
+    @Test
+    public void pedidosEnRegresandoClinica() {
+        prepararAmbulanciaLibre(new RegresandoClinicaSinPacienteState(ambulancia));
+        ambulancia.trasladarALaClinica(primerAsociado);
+        comprobarEstado("RegresandoClinica + traslado", TrasladandoPacienteClinicaState.class);
+        assertTrue("RegresandoClinica + traslado: el estado aceptó el pedido, la ambulancia debe quedar ocupada", ambulancia.isOcupado());
+
+        prepararAmbulanciaLibre(new RegresandoClinicaSinPacienteState(ambulancia));
+        ambulancia.atenderDomicilio(primerAsociado);
+        comprobarEstado("RegresandoClinica + domicilio", AtendiendoEnDomicilioState.class);
+        assertTrue("RegresandoClinica + domicilio: el estado aceptó el pedido, la ambulancia debe quedar ocupada", ambulancia.isOcupado());
+
+        prepararAmbulanciaLibre(new RegresandoClinicaSinPacienteState(ambulancia));
+        ambulancia.solicitarMantenimiento(operarioTaller);
+        comprobarEstado("RegresandoClinica + mantenimiento", RegresandoClinicaSinPacienteState.class);
+        assertFalse("RegresandoClinica + mantenimiento: el estado rechazó el pedido, la ambulancia no debería quedar ocupada", ambulancia.isOcupado());
+    }
+
+    @Test
+    public void pedidosEnRegresandoDelTaller() {
+        prepararAmbulanciaLibre(new RegresandoDelTallerState(ambulancia));
+        ambulancia.trasladarALaClinica(primerAsociado);
+        comprobarEstado("RegresandoDelTaller + traslado", RegresandoDelTallerState.class);
+        assertFalse("RegresandoDelTaller + traslado: el estado rechazó el pedido, la ambulancia no debería quedar ocupada", ambulancia.isOcupado());
+
+        prepararAmbulanciaLibre(new RegresandoDelTallerState(ambulancia));
+        ambulancia.atenderDomicilio(primerAsociado);
+        comprobarEstado("RegresandoDelTaller + domicilio", RegresandoDelTallerState.class);
+        assertFalse("RegresandoDelTaller + domicilio: el estado rechazó el pedido, la ambulancia no debería quedar ocupada", ambulancia.isOcupado());
+
+        prepararAmbulanciaLibre(new RegresandoDelTallerState(ambulancia));
+        ambulancia.solicitarMantenimiento(operarioTaller);
+        comprobarEstado("RegresandoDelTaller + mantenimiento", RegresandoDelTallerState.class);
+        assertFalse("RegresandoDelTaller + mantenimiento: el estado rechazó el pedido, la ambulancia no debería quedar ocupada", ambulancia.isOcupado());
+    }
+
     // =========================================================================
     // CONCURRENCIA: EXCLUSIÓN MUTUA Y SINCRONIZACIÓN
     // =========================================================================
