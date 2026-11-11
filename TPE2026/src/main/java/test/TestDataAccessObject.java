@@ -244,12 +244,59 @@ public class TestDataAccessObject {
 		}
 	}
 	
+	@Test
+	public void TestActualizarNombreInvalido() {
+		Asociado asociado = new Asociado(null,"Fulanito","1","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		
+		try {
+			dataAccessObject.actualizar(asociado);
+			fail("Se esperaba un AssertionError");
+		}catch(AssertionError e){
+		}catch(SQLException e){
+		}
+	}
+	
+	@Test
+	public void TestActualizarApellidoInvalido() {
+		Asociado asociado = new Asociado("Cosme",null,"0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		
+		try {
+			dataAccessObject.actualizar(asociado);
+			fail("Se esperaba un AssertionError");
+		}catch(AssertionError e){
+		}catch(SQLException e){
+		}
+	}
+	
+	@Test
+	public void TestActualizarDNIInvalido() {
+		Asociado asociado = new Asociado("Cosme","Fulanito",null,"2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		
+		try {
+			dataAccessObject.actualizar(asociado);
+			fail("Se esperaba un AssertionError");
+		}catch(AssertionError e){
+		}catch(SQLException e){
+		}
+	}
+	
+	@Test
+	public void TestActualizarTelefonoInvalido() {
+		Asociado asociado = new Asociado("Cosme","Fulanito","0",null,new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		
+		try {
+			dataAccessObject.actualizar(asociado);
+			fail("Se esperaba un AssertionError");
+		}catch(AssertionError e){
+		}catch(SQLException e){
+		}
+	}
 	
 	//CrearDTO(Asociado asociado)
 	
 	@Test
 	public void TestCrearDTOExitoso() {
-	    Asociado asociado = new Asociado("Cosme", "Fulanito", "0", "2231234567", new Domicilio("Springfield", 1234, "Av. Siempreviva"));
+	    Asociado asociado = new Asociado("Cosme", "Fulanito", "0", "2231234567", new Domicilio("Av. Siempreviva", 1234, "Springfield"));
 
 	    AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
 
@@ -286,7 +333,7 @@ public class TestDataAccessObject {
 	
 	
 	@Test
-	public void testCrearDTODNIInvalidoNulo() {
+	public void testCrearDTODNIInvalido() {
 		Asociado asociado = new Asociado("Cosme","Fulanito",null,"2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
 	
 		try {
