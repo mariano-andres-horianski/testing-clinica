@@ -246,7 +246,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void TestActualizarNombreInvalido() {
-		Asociado asociado = new Asociado(null,"Fulanito","1","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado(null,"Fulanito","0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
 		
 		try {
 			dataAccessObject.actualizar(asociado);
@@ -311,7 +311,7 @@ public class TestDataAccessObject {
 	
 	@Test
 	public void testCrearDTONombreInvalido() {
-		Asociado asociado = new Asociado(null,"Fulanito","1","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
+		Asociado asociado = new Asociado(null,"Fulanito","0","2231234567",new Domicilio("Springfield",1234,"Av. Siempreviva"));
 	
 		try {
 			AsociadoDTO asociadoDTO = dataAccessObject.CrearDTO(asociado);
