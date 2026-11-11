@@ -191,38 +191,34 @@ public class TestBaseDeDatosConDatos {
 	// ---------- Create ----------
 
 	@Test
-	//validar Create
+	//validar Create: insertar suma exactamente un asociado
 	public void testEjecutarInsertExitoso() {
-		String insert = "INSERT INTO Asociados(nombre, apellido, dni, calle, numero, ciudad, telefono) "
-				+ "VALUES (?,?,?,?,?,?,?);";
 		Asociado asociado = new Asociado(
-		        "Juan", "Pepe", "22211111", "123123123",
-		        new Domicilio("Avenida Siempreviva", 123, "Mar del Plata")
-		    );
-		AsociadoDTO dtoasociado_nuevo = this.DAO.CrearDTO(asociado);
+				"Juan", "Pepe", DNI_NUEVO, "123123123",
+				new Domicilio("Avenida Siempreviva", 123, "Mar del Plata"));
+		AsociadoDTO dtoNuevo = this.DAO.CrearDTO(asociado);
 		try {
-			this.bd.ejecutarInsert(insert, dtoasociado_nuevo);
-		}catch(Exception e) {
+			int antes = this.DAO.cargarBD().size();
 
-			fail("No se inserto un usuario pese a que era valido");
-		}
-
-		try {
-			//actualizo el ArrayList de asociados para verificar que de la BD se extraiga el nuevo
-			this.asociados = this.DAO.cargarBD();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//verifico que en el ArrayList se haya incluido mi nuevo Asociado
-		boolean encontrado = false;
-		for (AsociadoDTO a : this.asociados) {
-			if (a.getDni().equals(dtoasociado_nuevo.getDni())) {
-				encontrado = true;
-				break;
+			try {
+				this.bd.ejecutarInsert(INSERT, dtoNuevo);
+			} catch (SQLException e) {
+				fail("No se insertó un asociado pese a que era válido");
 			}
+
+			ArrayList<AsociadoDTO> despues = this.DAO.cargarBD();
+			assertEquals("Debería haberse sumado exactamente un asociado", antes + 1, despues.size());
+			boolean encontrado = false;
+			for (AsociadoDTO a : despues) {
+				if (a.getDni().equals(DNI_NUEVO)) {
+					encontrado = true;
+					break;
+				}
+			}
+			assertTrue("El asociado insertado no está en la BD", encontrado);
+		} catch (SQLException e) {
+			fail("No se pudo cargar la BD");
 		}
-		assertTrue("No se inserto exitosamente un usuario valido", encontrado);
 	}
 	@Test
 	//validar Create

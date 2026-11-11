@@ -311,11 +311,12 @@ public class TestBaseDeDatosSinDatos {
 			String dni = asociado_a_borrar.getDni();
 
 			try {
-				this.bd.ejecutarDelete("DELETE FROM Asociados WHERE dni=?;", dni);
+				this.bd.ejecutarDelete(DELETE, dni);
 			} catch (SQLException e) {
 				fail("No se pudo borrar un asociado existente");
 			}
 
+			assertEquals("La cantidad de asociados no disminuyó en uno", antes - 1, this.DAO.cargarBD().size());
 			assertFalse("El asociado borrado sigue en la BD", this.existeDni(dni));
 		} catch (SQLException e) {
 			fail("No se pudo cargar la BD o el asociado");
